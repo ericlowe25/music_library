@@ -1,10 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
-import React, {useState, useEffect, useRef} from 'react';
-import Gallery from './components/Gallery';
+import React, {useState, useEffect, useRef, Fragment} from 'react'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import Gallery from './components/Gallery'
 import SearchBar from './components/SearchBar'
-import { DataContext } from './context/DataContext';
-import { SearchContext } from './context/SearchContext';
+import {DataContext} from './context/DataContext'
+import {SearchContext} from './context/SearchContext'
+import AlbumView from './components/AlbumView'
+import ArtistView from './components/ArtistView'
+
 
 function App() {
   let [message, setMessage] = useState('Search for Music!');
@@ -30,22 +34,31 @@ function App() {
     }
     fetchData()
   }
-
-  return (
-    <div className="App">
-      <SearchContext.Provider value={{
-        term: searchInput,
-        handleSearch: handleSearch,
-      }}>
-         <SearchBar/>
-      </SearchContext.Provider>
-      {message}
-      <DataContext.Provider value={data}>
-          <Gallery/>
-      </DataContext.Provider>
-      
-    </div>
-  );
+return (
+  <div className="App">
+    <Router>
+      <Routes>
+          <Route path="/" element= {
+            <Fragment>
+                <SearchContext.Provider value={{
+                    term: searchInput,
+                    handleSearch: handleSearch,
+                  }}>
+                    <SearchBar/>
+                </SearchContext.Provider>
+                {message}
+                <DataContext.Provider value={data}>
+                    <Gallery/>
+                </DataContext.Provider>
+            </Fragment>
+          }/>
+          <Route path="/album/:id" element={<AlbumView/>}/>
+          <Route path="/artist/:id" element={<ArtistView/>}/>
+      </Routes>
+    </Router>
+    
+  </div>
+)
 }
 
 export default App
