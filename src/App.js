@@ -1,47 +1,88 @@
-import logo from './logo.svg';
 import './App.css';
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import Gallery from './components/Gallery'
 import SearchBar from './components/SearchBar'
 
-const App = () => {
-   let [search, setSearch] = useState('')
-   let [message, setMessage] = useState('Search for Music')
-   let [data, setData] = useState([])
-     
-   const API_URL ='https://itunes.apple.com/search?term='
+function App() {
+  let [searchTerm, setSearchTerm] = useState('')
+  let [data, setData] = useState([])
+  let [message, setMessage] = useState('Search for Music!')
 
-   useEffect(() => {
-    const fetchData = async () => {
-        document.title = `${search} Music`
-        const response = await fetch(API_URL + search)
+  useEffect(() => {
+    if (searchTerm) {
+      document.title=`${searchTerm} Music`
+      const fetchData = async () => {
+        const response = await fetch(`https://itunes.apple.com/search?term=${searchTerm}`)
         const resData = await response.json()
-        if (resData.results.length > 0){
-            setData(resData.results)
+        if(resData.results.length > 0) {
+          setData(resData.results)
         } else {
-            setMessage('Not Found')
+          setMessage('Not Found')
         }
-    }
-    fetchData()
-}, [search])
+      }
+      fetchData()
+  }
+  }, [searchTerm])
 
-// Handle submit search
-const handleSearch = (e, term) => {
-  e.preventDefault()
-  setSearch(term)
-}
+  const handleSearch = (e, term) => {
+    e.preventDefault()
+    setSearchTerm(term)
+  }
 
-return (
-  <div>
-      <SearchBar handleSearch = {handleSearch} />
+  return (
+    <div className="App">
+      <SearchBar handleSearch={handleSearch} />
       {message}
-      
-      <Gallery data={data}/>
-  </div>
-)
-
+      <Gallery data={data} />
+    </div>
+  );
 }
 
-export default App;
+export default App
+
+// import './App.css';
+// import {useEffect, useState} from 'react'
+// import Gallery from './components/Gallery'
+// import SearchBar from './components/SearchBar'
+
+// const App = () => {
+//    let [search, setSearch] = useState('')
+//    let [message, setMessage] = useState('Search for Music')
+//    let [data, setData] = useState([])
+     
+//    const API_URL ='https://itunes.apple.com/search?term='
+
+//    useEffect(() => {
+//     const fetchData = async () => {
+//         document.title = `${search} Music`
+//         const response = await fetch(API_URL + search)
+//         const resData = await response.json()
+//         if (resData.results.length > 0){
+//             setData(resData.results)
+//         } else {
+//             setMessage('Not Found')
+//         }
+//     }
+//     fetchData()
+// }, [search])
+
+// // Handle submit search
+// const handleSearch = (e, term) => {
+//   e.preventDefault()
+//   setSearch(term)
+// }
+
+// return (
+//   <div>
+//       <SearchBar handleSearch = {handleSearch} />
+//       {message}
+      
+//       <Gallery data={data}/>
+//   </div>
+// )
+
+// }
+
+// export default App;
 
 
