@@ -1,7 +1,54 @@
-import {useEffect, useState} from 'react'
-import {useParams, Link, useNavigate, Navigate} from 'react-router-dom'
+// import {useEffect, useState} from 'react'
+// import {useParams, Link, useNavigate, Navigate} from 'react-router-dom'
 
-function ArtistView () {
+// function ArtistView () {
+//     const { id } = useParams()
+//     const [ artistData, setArtistData ] = useState([])
+    
+//     useEffect(() => {
+//         const API_URL = `http://localhost:3000/album/${id}`
+//         const fetchData = async () => {
+//             const response = await fetch(API_URL)
+//             const resData = await response.json()
+//             setArtistData(resData.results)
+//         }
+//         fetchData()
+//     }, [id])
+
+//     const allAlbums = artistData.filter(entity => entity.collectionType === 'Album')
+//                         .map((album, i) => { 
+//                             return (
+//                                 <div key={i}>
+//                                     <Link to={`/album/${album.collectionId}`}>
+//                                         <p>{album.collectionName}</p>
+//                                     </Link>
+//                                 </div>)
+//                                 })
+    
+//     const navButtons = () => {
+//         return (
+//             <div>
+//                 <button onClick={() => Navigate('/')}>Home</button> | <button onClick={() => Navigate(-1)}>Back</button>
+//             </div>
+//         )
+//     }
+
+//     return (
+//         <div>
+//             {artistData.length > 0 ? <h2>{artistData[0].artistName}</h2> : <p>loading...</p>}
+//             {navButtons()}
+//             {allAlbums}
+//         </div>
+//     )
+// }
+// import { render } from '@testing-library/react'
+
+// test :
+import {useEffect, useState} from 'react'
+import {useParams, Link, useNavigate} from 'react-router-dom'
+
+const ArtistView = () => {
+    const navigate = useNavigate()
     const { id } = useParams()
     const [ artistData, setArtistData ] = useState([])
     
@@ -16,7 +63,7 @@ function ArtistView () {
     }, [id])
 
     const allAlbums = artistData.filter(entity => entity.collectionType === 'Album')
-                        .map((album, i) => { 
+                       .map((album, i) => { 
                             return (
                                 <div key={i}>
                                     <Link to={`/album/${album.collectionId}`}>
@@ -28,7 +75,7 @@ function ArtistView () {
     const navButtons = () => {
         return (
             <div>
-                <button onClick={() => Navigate('/')}>Home</button> | <button onClick={() => Navigate(-1)}>Back</button>
+                <button onClick={() => navigate('/')}>Home</button> | <button onClick={() => navigate(-1)}>Back</button>
             </div>
         )
     }
