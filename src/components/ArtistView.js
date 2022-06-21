@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import {useEffect, useState} from 'react'
+import {useParams, Link, useNavigate, Navigate} from 'react-router-dom'
 
-function ArtistView(){
-    const {id} = useParams()
-    const [artistData, setArtistData] = useState([])
+function ArtistView () {
+    const { id } = useParams()
+    const [ artistData, setArtistData ] = useState([])
     
     useEffect(() => {
-        const API_URL = 'http://localhost:4000/album/${id}'
+        const API_URL = `http://localhost:3000/album/${id}`
         const fetchData = async () => {
             const response = await fetch(API_URL)
             const resData = await response.json()
@@ -14,8 +14,8 @@ function ArtistView(){
         }
         fetchData()
     }, [id])
-}
-const allAlbums = artistData.filter(entity => entity.collectionType === 'Album')
+
+    const allAlbums = artistData.filter(entity => entity.collectionType === 'Album')
                         .map((album, i) => { 
                             return (
                                 <div key={i}>
@@ -40,6 +40,6 @@ const allAlbums = artistData.filter(entity => entity.collectionType === 'Album')
             {allAlbums}
         </div>
     )
-
+}
 
 export default ArtistView
