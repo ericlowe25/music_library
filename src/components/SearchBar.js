@@ -1,17 +1,21 @@
-                
-        import { useState } from 'react'
-        function SearchBar(props) {
-            let [searchTerm, setSearchTerm] = useState('')
+import GalleryItem from './GalleryItem';
+import {useContext, useState} from 'react'
+import { SearchContext } from '../context/SearchContext';
 
-            return (
-                <form onSubmit={(e) => props.handleSearch(e, searchTerm)}>
-                    <input type="text" placeholder="Enter a search here" onChange={(e) => props.handleSearch(e, e.target.value)}/>
-                    <input type="submit" />
-                </form>
-            )
-        }
+const SearchBar = () => {
+    const {term, handleSearch} = useContext(SearchContext);
 
-        export default SearchBar
+    return(
+        <div>
+            <form>
+                <input ref={term} type='text' placeholder='Enter a search term here'></input>
+                <button onClick={(e) => handleSearch(e, term.current.value)}>Submit</button>
+            </form>
+        </div>
+    )
+}
+
+export default SearchBar
     
     
 
@@ -35,3 +39,5 @@
 // }
 
 // export default SearchBar
+
+
